@@ -36,7 +36,8 @@ We can break this program down into its fundamental components to understand wha
 To execute our "Hello, World!" program, we need to first save it. Go source files use the `.go` extension. We could name our file `hello.go`. To run the program, we use the `go run` command followed by the file name in the terminal:
 
 ```bash
-go run hello.go
+$ go run hello.go
+Hello, World!
 ```
 
 You should now see "Hello, World!" printed in your terminal, a testament to the success of your first Go program.
