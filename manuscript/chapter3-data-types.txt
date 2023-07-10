@@ -12,7 +12,7 @@ In Go, there are several integer types with varying sizes. The `int` and `uint` 
 
 ```go
 var nodeCount int = 3
-fmt.Println(nodeCount)  // Prints '3'
+fmt.Println(nodeCount)
 ```
 
 ### Float Types
@@ -21,7 +21,7 @@ Floating-point types represent numbers with decimal points. Go has two floating-
 
 ```go
 var nodeLoadAverage float64 = 2.5
-fmt.Println(nodeLoadAverage)  // Prints '2.5'
+fmt.Println(nodeLoadAverage)
 ```
 
 ### Boolean Type
@@ -30,7 +30,7 @@ The boolean type, `bool`, represents `true` or `false`:
 
 ```go
 var isPodRunning bool = true
-fmt.Println(isPodRunning)  // Prints 'true'
+fmt.Println(isPodRunning)
 ```
 
 ### String Type
@@ -39,7 +39,7 @@ Strings are sequences of characters. In Go, strings are immutable, meaning once 
 
 ```go
 var podName string = "mypod"
-fmt.Println(podName)  // Prints 'mypod'
+fmt.Println(podName)
 ```
 
 ## Complex Data Types
@@ -55,7 +55,7 @@ var clusterIps [3]string
 clusterIps[0] = "10.0.0.1"
 clusterIps[1] = "10.0.0.2"
 clusterIps[2] = "10.0.0.3"
-fmt.Println(clusterIps)  // Prints '[10.0.0.1 10.0.0.2 10.0.0.3]'
+fmt.Println(clusterIps)
 ```
 
 ### Slices
@@ -64,7 +64,7 @@ A slice is similar to an array, but its length is not fixed:
 
 ```go
 podNames := []string{"mypod1", "mypod2", "mypod3"}
-fmt.Println(podNames)  // Prints '[mypod1 mypod2 mypod3]'
+fmt.Println(podNames)
 ```
 
 ### Maps
@@ -77,7 +77,7 @@ podStatus := map[string]string{
     "mypod2": "Pending",
     "mypod3": "Failed",
 }
-fmt.Println(podStatus)  // Prints 'map[mypod1:Running mypod2:Pending mypod3:Failed]'
+fmt.Println(podStatus)
 ```
 
 ### Structs
@@ -96,7 +96,7 @@ mypod := Pod{
     Status: "Running",
     IP:     "10.0.0.1",
 }
-fmt.Println(mypod)  // Prints '{mypod Running 10.0.0.1}'
+fmt.Println(mypod)
 ```
 
 ## Summary of Data Types
