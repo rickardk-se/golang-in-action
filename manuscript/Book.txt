@@ -1,3 +1,4 @@
 introduction.txt
 chapter1-hello-world.txt
 chapter2-variables-and-constants.txt
+chapter3-data-types.txt
