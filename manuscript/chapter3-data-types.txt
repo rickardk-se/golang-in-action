@@ -99,6 +99,20 @@ mypod := Pod{
 fmt.Println(mypod)  // Prints '{mypod Running 10.0.0.1}'
 ```
 
+### Summary Table
+
+| Data Type   | Description                                                                           |
+| ----------- | ------------------------------------------------------------------------------------- |
+| Integer     | Numeric type used for whole numbers. Includes `int`, `int8`, `int16`, `int32`, `int64`. Also includes unsigned versions `uint`, `uint8`, `uint16`, `uint32`, `uint64`. |
+| Float       | Numeric type used for numbers with decimals. Includes `float32`, `float64`.            |
+| Boolean     | Logical type that can only be `true` or `false`.                                       |
+| String      | A sequence of characters.                                                              |
+| Array       | Fixed-length sequence of items of the same type.                                       |
+| Slice       | Similar to an array but length is not fixed.                                           |
+| Map         | Unordered collection of key-value pairs.                                               |
+| Struct      | Collection of fields with different types.                                             |
+
+
 ## Conclusion
 
 Understanding the different data types in Go is fundamental to programming in the language. As you have seen, Go provides a variety of types that allow us to model real-world concepts in our programs. Whether you're representing the count of nodes in a Kubernetes cluster or the statuses of different pods, Go's data types have you covered.
