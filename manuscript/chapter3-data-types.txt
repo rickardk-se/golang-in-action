@@ -99,7 +99,7 @@ mypod := Pod{
 fmt.Println(mypod)  // Prints '{mypod Running 10.0.0.1}'
 ```
 
-### Summary Table
+## Summary of Data Types
 
 | Data Type   | Description                                                                           |
 | ----------- | ------------------------------------------------------------------------------------- |
