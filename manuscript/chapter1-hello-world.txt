@@ -1,3 +1,4 @@
+{mainmatter}
 # Crafting Your First Golang Program: "Hello, World!"
 
 In the universe of programming, the "Hello, World!" program stands as the quintessential first step, a rite of passage, that introduces us to any new language. Not only does this simple program allow us to confirm that our environment is set up correctly, but it also provides a brief glimpse into the syntax and structure of the language at hand. We will embark on this journey with Go, also known as Golang, a statically-typed, compiled language designed at Google. 
