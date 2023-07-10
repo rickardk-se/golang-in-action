@@ -1,6 +1,6 @@
 # Data Types
 
-In this chapter, we delve into data types in Go, an essential aspect to understand when programming in this language. We encourage you to run these examples using the `go run` command as introduced in Chapter 1 to reinforce your learning. In a later chapter we will show you how to compile your Go programing into a binary executable.
+In this chapter, we delve into data types in Go, an essential aspect to understand when programming in this language. We encourage you to run these examples using the `go run` command as introduced in Chapter 1 to reinforce your learning. Put the code examples directly in the `main()` function of your Go program. 
 
 ## Basic Data Types
 
