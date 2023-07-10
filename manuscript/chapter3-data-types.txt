@@ -1,46 +1,46 @@
 # Data Types
 
-In this chapter, we delve into data types in Go, an essential aspect to understand when programming in this language. Our code examples will use Kubernetes terminology to illustrate these concepts in a practical way. We encourage you to run these examples using the `go run` command to reinforce your learning.
+In this chapter, we delve into data types in Go, an essential aspect to understand when programming in this language. We encourage you to run these examples using the `go run` command as introduced in Chapter 1 to reinforce your learning. In a later chapter we will show you how to compile your Go programing into a binary executable.
 
 ## Basic Data Types
 
-Go is statically typed, meaning each variable has a specific type that is determined at compile time. Let's discuss some basic data types:
+Go is statically typed, meaning each variable has a specific type that is determined at compile time. Let's discuss some basic data types.
 
 ### Integer Types
 
 In Go, there are several integer types with varying sizes. The `int` and `uint` types are either 32 or 64 bits, depending on the underlying system. Here's an example of declaring an integer variable:
 
-\```go
+```go
 var nodeCount int = 3
 fmt.Println(nodeCount)  // Prints '3'
-\```
+```
 
 ### Float Types
 
 Floating-point types represent numbers with decimal points. Go has two floating-point types: `float32` and `float64` (double precision).
 
-\```go
+```go
 var nodeLoadAverage float64 = 2.5
 fmt.Println(nodeLoadAverage)  // Prints '2.5'
-\```
+```
 
 ### Boolean Type
 
 The boolean type, `bool`, represents `true` or `false`:
 
-\```go
+```go
 var isPodRunning bool = true
 fmt.Println(isPodRunning)  // Prints 'true'
-\```
+```
 
 ### String Type
 
 Strings are sequences of characters. In Go, strings are immutable, meaning once created, they cannot be changed.
 
-\```go
+```go
 var podName string = "mypod"
 fmt.Println(podName)  // Prints 'mypod'
-\```
+```
 
 ## Complex Data Types
 
@@ -50,41 +50,41 @@ Beyond these basic types, Go offers more complex types like arrays, slices, maps
 
 An array is a fixed-length sequence of items of the same type:
 
-\```go
+```go
 var clusterIps [3]string
 clusterIps[0] = "10.0.0.1"
 clusterIps[1] = "10.0.0.2"
 clusterIps[2] = "10.0.0.3"
 fmt.Println(clusterIps)  // Prints '[10.0.0.1 10.0.0.2 10.0.0.3]'
-\```
+```
 
 ### Slices
 
 A slice is similar to an array, but its length is not fixed:
 
-\```go
+```go
 podNames := []string{"mypod1", "mypod2", "mypod3"}
 fmt.Println(podNames)  // Prints '[mypod1 mypod2 mypod3]'
-\```
+```
 
 ### Maps
 
 A map is an unordered collection of key-value pairs. Here's an example:
 
-\```go
+```go
 podStatus := map[string]string{
     "mypod1": "Running",
     "mypod2": "Pending",
     "mypod3": "Failed",
 }
 fmt.Println(podStatus)  // Prints 'map[mypod1:Running mypod2:Pending mypod3:Failed]'
-\```
+```
 
 ### Structs
 
 A `struct` is a collection of fields with different types:
 
-\```go
+```go
 type Pod struct {
     Name   string
     Status string
@@ -97,7 +97,7 @@ mypod := Pod{
     IP:     "10.0.0.1",
 }
 fmt.Println(mypod)  // Prints '{mypod Running 10.0.0.1}'
-\```
+```
 
 ## Conclusion
 
