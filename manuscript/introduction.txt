@@ -1,0 +1,15 @@
+# Introduction
+
+Welcome to "Golang in Action" - your guide to the formidable Go language. Whether you're a newcomer to the world of Go or someone who works with Kubernetes and wants to deepen your understanding of the language it's built upon, this book is designed for you.
+
+Go, also known as Golang, is an open-source programming language created by Google. It's loved by many for its simplicity, efficiency, and strong support for concurrent programming. With its growing popularity and broad adoption, especially in systems programming and cloud services, knowing Go has become a crucial skill for modern developers.
+
+This book is designed to be a gentle introduction to Go for beginners and a refresher for existing Golang programmers. If you're starting from scratch, we will guide you through the fundamentals of the language, such as syntax, data types, control structures, and functions. As you progress, you'll explore more complex topics like arrays, maps, slices, goroutines, methods, and interfaces. Error handling, a critical part of software development, also gets its spotlight.
+
+The unique aspect of "Golang in Action" is that all code examples use Kubernetes terminology. Kubernetes, an open-source system for automating deployment, scaling, and management of containerized applications, is primarily written in Go. By using Kubernetes as the context, you'll not only learn Go but also gain insights into the terminology of this widely-used platform.
+
+We've structured the book in such a way that you can follow along from beginning to end, or you can jump to a specific chapter if you're looking for something specific. The choice is yours.
+
+As W. Richard Stevens did in his beloved technical books, we will do our best to explain things as clearly and simply as possible. His motto was, "There are no dumb questions," and we believe that to be true. We encourage you to ask questions, to try out examples, and to explore Go beyond the confines of this book.
+
+The journey to mastering Go starts here. It will require patience and effort, but we promise it will be a rewarding experience. So, without further ado, let's delve into "Golang in Action". Enjoy your journey!
