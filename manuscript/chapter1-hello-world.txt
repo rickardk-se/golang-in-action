@@ -5,7 +5,7 @@ In the universe of programming, the "Hello, World!" program stands as the quinte
 
 ## Setting the Stage
 
-Before diving into code, it's important to ensure that we have Go properly installed on our system. The Go installation procedure is beyond the scope of this post, but you can find comprehensive instructions on the [official Golang website](https://golang.org/doc/install).
+Before diving into code, it's important to ensure that we have Go properly installed on our system. The Go installation procedure is beyond the scope of this chapter, but you can find comprehensive instructions on the [official Golang website](https://golang.org/doc/install).
 
 ## Writing Our Program
 
