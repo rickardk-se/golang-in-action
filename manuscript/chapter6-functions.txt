@@ -64,9 +64,7 @@ This function, which is declared and immediately invoked, is used to carry out a
 
 ## Higher-Order Functions
 
-Higher-order functions take one or more functions as arguments or return a function as their result. Thanks to Go's first-class support for functions, we can utilize higher-order functions to craft flexible and powerful coding patterns.
-
-A higher-order function can help us abstract common looping or conditional logic, leaving only the unique parts of that logic within each specific function that we pass in. This leads to code that is DRY (Don't Repeat Yourself), easier to read, and maintain.
+Higher-order functions take one or more functions as arguments or return a function as their result. This is possible due to Go's first-class support for functions. Higher-order functions allow us to encapsulate common functionality, leading to code that is DRY (Don't Repeat Yourself), easier to read, and maintainable.
 
 Consider a scenario where we want to perform a series of checks on a list of Kubernetes pods. Instead of writing separate loops for each check, we can write a higher-order function that encapsulates the looping logic, and pass in the unique check logic as a function.
 
@@ -82,30 +80,34 @@ func checkPods(pods []string, checkFn func(string) bool) []bool {
 
 In the `checkPods` function above, we pass in a slice of pods and a function `checkFn`. This passed function is applied to each pod in the slice.
 
-To use this higher-order function, we can define our specific check functions. We could define these as normal, named functions, but if a specific check will only be used in one place, an anonymous function might be more suitable:
+To use this higher-order function, we can define our specific check functions. If a specific check will only be used in one place, it's appropriate to use an anonymous function. However, if the anonymous function is large or complex, assigning it to a variable can enhance readability:
 
 ```go
 // We have a slice of pods
 pods := []string{"pod1", "pod2", "pod3"}
 
-// Check if pods are running
-runningResults := checkPods(pods, func(pod string) bool {
+// Define the check functions
+isRunningCheck := func(pod string) bool {
     // Replace this with actual check code in a real-world scenario
     isRunning := true
     fmt.Printf("Is %s running: %t\n", pod, isRunning)
     return isRunning
-})
+}
 
-// Check if pods are using less than a certain amount of memory
-memoryResults := checkPods(pods, func(pod string) bool {
+isLowMemoryCheck := func(pod string) bool {
     // Replace this with actual check code in a real-world scenario
     isLowMemory := false
     fmt.Printf("Is %s using low memory: %t\n", pod, isLowMemory)
     return isLowMemory
-})
+}
+
+// Call checkPods with the check functions
+runningResults := checkPods(pods, isRunningCheck)
+memoryResults := checkPods(pods, isLowMemoryCheck)
 ```
 
-In these examples, the anonymous functions passed to `checkPods` are only used in one place, making anonymous functions a good fit. If we wanted to perform the same check in multiple places, it might be better to use a named function instead.
+In these examples, the anonymous functions passed to `checkPods` are only used in one place, but are assigned to variables for readability. This approach also allows us to reuse the check functions if needed.
+
 
 
 ## Conclusion
