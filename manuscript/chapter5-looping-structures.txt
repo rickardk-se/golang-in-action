@@ -1,4 +1,4 @@
-# Golang Looping Structures: for, while, and range
+# Looping Structures: for, while, and range
 
 Looping structures in Go offer a flexible way to execute blocks of code multiple times, a feature commonly used in systems programming. This chapter will explore the details of Go's looping structures, mainly `for`, `while`, and `range` loops.
 
