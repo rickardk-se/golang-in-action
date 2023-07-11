@@ -42,6 +42,6 @@ Hello, World!
 
 You should now see "Hello, World!" printed in your terminal, a testament to the success of your first Go program.
 
-## In Conclusion
+## Conclusion
 
 The beauty of the "Hello, World!" program lies in its simplicity. Although it's straightforward, writing it in a new language means taking the first step in understanding the new syntax, structure, and nuances. As you continue your journey with Go, you'll find it to be a powerful, efficient, and practical language, carrying the potential to build everything from web servers to data pipelines, or even a new tool of your own. So here's to the beginning of your Go journey. Happy coding!
