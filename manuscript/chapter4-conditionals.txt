@@ -1,8 +1,8 @@
 # Conditional Types in Go
 
-In this segment, we focus on the conditional types in Go, specifically `if` and `if else` constructs. Conditional logic is an integral part of programming languages, allowing us to control the flow of our programs based on certain conditions.
+In this chapter, we focus on the conditional types in Go, specifically `if` and `if else` constructs. Conditional logic is an integral part of programming languages, allowing us to control the flow of our programs based on certain conditions.
 
-Go, like other C-style languages, supports `if`, `if else`, and `else if` conditional structures. However, Go introduces its own flavor by avoiding the need for parentheses `()` around conditions and enforcing the use of braces `{}` to encapsulate the condition's scope.
+Go, like other C-style languages, supports `if`, `if else`, and `else if` conditional structures. However, Go introduces its own flavor by avoiding the need for parentheses `()` around conditions and enforcing the use of braces `{}` to encapsulate the condition's scope. 
 
 To ground our understanding in a practical context, we will continue to utilize Kubernetes-related examples.
 
@@ -103,6 +103,41 @@ func main() {
 ```
 
 The `if`, `if else`, and `else if` statements are powerful tools for controlling the flow of your Go programs. When used correctly, they offer flexible and readable code. Always remember to run and experiment with the examples to gain a firm understanding of these structures. As you continue to explore Go, these conditional statements will become second nature.
+
+## Comparison Operators
+
+Comparison operators play a vital role in making logical decisions based on the relationships between values. They are commonly used in conjunction with `if` statements to control the flow of the program based on specific conditions. Let's explore examples of how comparison operators are used with `if` statements:
+
+- **Equality**: The equality operator (`==`) which was also used in previous examples is often used in `if` statements to check if two values are equal. It allows us to execute a block of code only when the condition is true. For instance:
+
+```go
+podStatus := "Running"
+
+if podStatus == "Running" {
+    fmt.Println("Pod is running.")
+} else {
+    fmt.Println("Pod is not running.")
+}
+```
+
+In the above example, the `if` statement checks if the `podStatus` is equal to `"Running"`. If the condition is true, the code block within the `if` statement is executed and it prints "Pod is running." Otherwise, the code block within the `else` statement is executed, and it prints "Pod is not running."
+
+- **Inequality**: The inequality operator (`!=`) is used in `if` statements to check if two values are not equal. It allows us to perform specific actions when the condition is true. Consider the following example:
+
+```go
+podStatus := "Running"
+
+if podStatus != "Running" {
+    fmt.Println("Pod is not running.")
+} else {
+    fmt.Println("Pod is running.")
+}
+```
+
+In this example, the `if` statement checks if the `podStatus` is not equal to `"Running"`. If the condition is true, it executes the code block within the `if` statement and prints "Pod is not running." Otherwise, it executes the code block within the `else` statement and prints "Pod is running."
+
+These examples demonstrate the use of comparison operators within `if` statements to make decisions based on specific conditions. Such constructs are invaluable in Go programming, enabling you to control the flow of your program based on the relationships between values.
+
 
 ## Logical operators
 
