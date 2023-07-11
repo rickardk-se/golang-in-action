@@ -45,35 +45,35 @@ In the `checkPodStatus` function, `podName` and `podStatus` are parameters, and 
 
 Variadic functions in Go are functions that can be called with a variable number of arguments. This can be useful when we want to work with a collection of similar items, but the exact number of those items might not be known in advance.
 
-Consider a scenario where we have multiple Kubernetes deployments, and we want to calculate the total CPU requests based on their respective CPU requests. Since the number of deployments can vary, we can use a variadic function to handle this:
+Consider a scenario where we have multiple Kubernetes pods, and we want to calculate the total CPU requests based on their respective CPU requests. Since the number of pods can vary, we can use a variadic function to handle this:
 
 ```go
-type Deployment struct {
+type Pod struct {
     Name string
     CPURequest float64
 }
 
-func totalCPURequest(deployments ...Deployment) float64 {
+func totalCPURequest(pods ...Pod) float64 {
     total := 0.0
-    for _, deployment := range deployments {
-        total += deployment.CPURequest
+    for _, pod := range pods {
+        total += pod.CPURequest
     }
     return total
 }
 ```
 
-In the function `totalCPURequest`, `deployments` is a slice of `Deployment` structs. Inside the function, we loop over this slice, adding each deployment's CPU request to a running total.
+In the function `totalCPURequest`, `pods` is a slice of `Pod` structs. Inside the function, we loop over this slice, adding each pod's CPU request to a running total.
 
-We can call this variadic function with any number of `Deployment` arguments:
+We can call this variadic function with any number of `Pod` arguments:
 
 ```go
-deploy1 := Deployment{Name: "Deploy1", CPURequest: 0.2}
-deploy2 := Deployment{Name: "Deploy2", CPURequest: 0.3}
-deploy3 := Deployment{Name: "Deploy3", CPURequest: 0.1}
+pod1 := Pod{Name: "Pod1", CPURequest: 0.2}
+pod2 := Pod{Name: "Pod2", CPURequest: 0.3}
+pod3 := Pod{Name: "Pod3", CPURequest: 0.1}
 
-fmt.Println(totalCPURequest(deploy1))                      // Output: 0.2
-fmt.Println(totalCPURequest(deploy1, deploy2))             // Output: 0.5
-fmt.Println(totalCPURequest(deploy1, deploy2, deploy3))    // Output: 0.6
+fmt.Println(totalCPURequest(pod1))                      // Output: 0.2
+fmt.Println(totalCPURequest(pod1, pod2))             // Output: 0.5
+fmt.Println(totalCPURequest(pod1, pod2, pod3))    // Output: 0.6
 ```
 
 This shows how variadic functions can provide flexibility, allowing us to create functions that can handle an arbitrary number of arguments.
