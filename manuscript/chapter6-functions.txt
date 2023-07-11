@@ -108,6 +108,49 @@ memoryResults := checkPods(pods, isLowMemoryCheck)
 
 In these examples, the anonymous functions passed to `checkPods` are only used in one place, but are assigned to variables for readability. This approach also allows us to reuse the check functions if needed.
 
+Functions can also return other functions. This allows us to create dynamic functionality. Let's say we have a need to create different types of Kubernetes resource checkers dynamically, we could do something like the following:
+
+```go
+func createPodChecker(podCheckType string) func(string) bool {
+    if podCheckType == "running" {
+        return func(pod string) bool {
+            // Replace this with actual check code in a real-world scenario
+            isRunning := true
+            fmt.Printf("Is %s running: %t\n", pod, isRunning)
+            return isRunning
+        }
+    } else if podCheckType == "lowMemory" {
+        return func(pod string) bool {
+            // Replace this with actual check code in a real-world scenario
+            isLowMemory := false
+            fmt.Printf("Is %s using low memory: %t\n", pod, isLowMemory)
+            return isLowMemory
+        }
+    }
+      else {
+        return func(pod string) bool {
+            fmt.Printf("No checker for %s\n", pod)
+            return false
+      }
+    }
+}
+```
+
+In the above example, the `createPodChecker` function returns another function based on the `podCheckType` string passed to it. The returned function can then be used to check a pod's status.
+
+```go
+// Create checkers
+runningChecker := createPodChecker("running")
+memoryChecker := createPodChecker("lowMemory")
+unknownChecker := createPodChecker("unknown")
+
+// Use checkers
+fmt.Println(runningChecker("pod1"))  // true
+fmt.Println(memoryChecker("pod2"))  // false
+fmt.Println(unknownChecker("pod3"))  // false
+```
+
+In this way, we can generate custom logic on the fly based on our requirements. This level of dynamism allows for some powerful and flexible coding structures.
 
 
 ## Conclusion
