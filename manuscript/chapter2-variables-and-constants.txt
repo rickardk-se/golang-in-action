@@ -71,7 +71,8 @@ nodeSelector := "disk=ssd"
 A constant is a simple, unchanging value. Once a constant is declared, its value cannot be changed. Constants are declared like variables, but with the `const` keyword:
 
 ```go
-const namespace = "default"
+const namespace string = "default" // type is optional
+// namespace = "kube-system" // This will throw an error
 ```
 
 ### Naming Conventions
@@ -94,8 +95,8 @@ const ClusterIP = "10.0.0.1"
 
 ```go
 const (
-    MasterPrefix       = "master-"
-    WorkerPrefix       = "worker-"
+    MasterPrefix = "master-"
+    WorkerPrefix = "worker-"
 )
 ```
 
