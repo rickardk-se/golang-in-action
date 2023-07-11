@@ -170,16 +170,16 @@ A `struct` is a collection of fields with different types:
 ```go
 type Pod struct {
     Name   string
-    Status string
+    Running bool
     IP     string
 }
 
 mypod := Pod{
     Name:   "mypod",
-    Status: "Running",
+    Running: true,
     IP:     "10.0.0.1",
 }
-fmt.Println(mypod)
+fmt.Println(mypod) // Output: {mypod true 10.0.0.1}
 ```
 
 ## Summary of Data Types
