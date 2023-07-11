@@ -1,6 +1,21 @@
-# Diving into Go Functions
+# Diving into Functions
 
 Functions in the Go programming language serve as the cornerstones that uphold the structure of larger and more intricate programs. They encapsulate specific operations, promote code reuse, and make our programs modular and more readable.
+
+## The `main` Function
+
+In every Go program, the execution starts with a function named `main`. This is the entry point of our program and Go compiler knows where to start executing code because of this function.
+
+The `main` function resides in the `main` package, so the package declaration at the start of every executable go program is `package main`. Here's the simplest form of a Go program:
+
+```go
+package main
+
+func main() {
+    // Entry point of the program
+}
+```
+
 
 ## Function Declaration
 
@@ -26,19 +41,42 @@ func checkPodStatus(podName string, podStatus string) bool {
 
 In the `checkPodStatus` function, `podName` and `podStatus` are parameters, and `bool` is the return type.
 
-## The `main` Function
+## Variadic Functions
 
-In every Go program, the execution starts with a function named `main`. This is the entry point of our program and Go compiler knows where to start executing code because of this function.
+Variadic functions in Go are functions that can be called with a variable number of arguments. This can be useful when we want to work with a collection of similar items, but the exact number of those items might not be known in advance.
 
-The `main` function resides in the `main` package, so the package declaration at the start of every executable go program is `package main`. Here's the simplest form of a Go program:
+Consider a scenario where we have multiple Kubernetes deployments, and we want to calculate the total CPU requests based on their respective CPU requests. Since the number of deployments can vary, we can use a variadic function to handle this:
 
 ```go
-package main
+type Deployment struct {
+    Name string
+    CPURequest float64
+}
 
-func main() {
-    // Entry point of the program
+func totalCPURequest(deployments ...Deployment) float64 {
+    total := 0.0
+    for _, deployment := range deployments {
+        total += deployment.CPURequest
+    }
+    return total
 }
 ```
+
+In the function `totalCPURequest`, `deployments` is a slice of `Deployment` structs. Inside the function, we loop over this slice, adding each deployment's CPU request to a running total.
+
+We can call this variadic function with any number of `Deployment` arguments:
+
+```go
+deploy1 := Deployment{Name: "Deploy1", CPURequest: 0.2}
+deploy2 := Deployment{Name: "Deploy2", CPURequest: 0.3}
+deploy3 := Deployment{Name: "Deploy3", CPURequest: 0.1}
+
+fmt.Println(totalCPURequest(deploy1))                      // Output: 0.2
+fmt.Println(totalCPURequest(deploy1, deploy2))             // Output: 0.5
+fmt.Println(totalCPURequest(deploy1, deploy2, deploy3))    // Output: 0.6
+```
+
+This shows how variadic functions can provide flexibility, allowing us to create functions that can handle an arbitrary number of arguments.
 
 ## Anonymous Functions
 
@@ -59,8 +97,6 @@ if !podHealthy {
 ```
 
 This function, which is declared and immediately invoked, is used to carry out an operation that doesn't need to be repeated elsewhere in the code.
-
-
 
 ## Higher-Order Functions
 
@@ -151,6 +187,51 @@ fmt.Println(unknownChecker("pod3"))  // false
 ```
 
 In this way, we can generate custom logic on the fly based on our requirements. This level of dynamism allows for some powerful and flexible coding structures.
+
+## Using `defer`
+
+In Go, `defer` is a built-in keyword that allows a function call to be deferred, meaning it is postponed until the surrounding function returns. This is incredibly useful in scenarios where you need to guarantee that certain cleanup actions are performed before a function returns, regardless of where the return occurs.
+
+Consider a scenario where you open a connection to a Kubernetes API server and perform several operations. Regardless of the success or failure of these operations, you want to ensure the connection is properly closed. Here is where `defer` shines:
+
+```go
+func interactWithAPIServer(apiServer string) {
+    // Open connection (hypothetical function)
+    connection, err := openConnection(apiServer)
+    if err != nil {
+        fmt.Println("Failed to open connection")
+        return
+    }
+
+    // Ensure connection is closed before function returns
+    defer closeConnection(connection)
+
+    // Perform operations with KubeAPI
+    connection.getPods()
+
+}
+```
+
+In the above code snippet, regardless of what happens after the connection is opened, we can rest assured that `closeConnection` will be called before `interactWithAPIServer` returns.
+
+Defer statements are executed in LIFO (Last In First Out) order, so if there are multiple defer calls in a function, the last defer call will be executed first.
+
+```go
+func deferExample() {
+    defer fmt.Println("This will print last")
+    defer fmt.Println("This will print second")
+    fmt.Println("This prints first")
+}
+```
+
+Running `deferExample()` will output:
+```
+This prints first
+This will print second
+This will print last
+```
+
+Here we have introduced the defer statement and illustrated its usage with examples in the context of Kubernetes.
 
 
 ## Conclusion
