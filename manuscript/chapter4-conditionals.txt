@@ -156,68 +156,37 @@ if podCount <= maxPods {
 In these examples, we're using the comparison operators to check the `podCount` in relation to the `minPods` and `maxPods` values. Depending on the operator used and the result of the comparison, different messages will be printed. These operators allow for a rich set of conditions to be expressed in your Go programs.
 
 
-## Logical operators
+## Logical Operators
 
-In many scenarios, a single condition isn't enough to control the flow of our program. This is where `AND` (`&&`) and `OR` (`||`) logical operators come into play, allowing us to combine multiple conditions.
+In many scenarios, a single condition isn't enough to control the flow of our program. That's where logical operators come into play, enabling us to combine or invert conditions. The logical operators in Go are `AND` (`&&`), `OR` (`||`), and `NOT` (`!`).
 
-### `AND` Operator
+The `AND` (`&&`) operator returns `true` if both conditions are true, and `OR` (`||`) returns `true` if at least one of the conditions is true. Conversely, the `NOT` (`!`) operator inverts the truth value of the condition it is applied to.
 
-The `AND` (`&&`) operator allows us to combine multiple conditions. If all conditions are `true`, the entire expression evaluates to `true`. If any of the conditions are `false`, the entire expression evaluates to `false`. The syntax is as follows:
+Here are examples illustrating their usage in a Kubernetes context:
 
 ```go
-if condition1 && condition2 {
-    // Code to execute if both condition1 and condition2 are true
+podCount := 5
+minPods := 3
+maxPods := 10
+
+// Using AND operator
+if podCount >= minPods && podCount <= maxPods {
+    fmt.Println("Pod count is within the acceptable range.")
+}
+
+// Using OR operator
+if podCount < minPods || podCount > maxPods {
+    fmt.Println("Pod count is outside the acceptable range.")
+}
+
+// Using NOT operator
+if !(podCount == maxPods) {
+    fmt.Println("Pod count has not reached the maximum limit.")
 }
 ```
 
-For instance, let's consider a situation where we want to check if a Kubernetes `Pod` is running and if it is in the `default` namespace.
+In these examples, the `AND` operator is used to check if `podCount` is within the acceptable range, the `OR` operator checks if `podCount` is outside the acceptable range, and the `NOT` operator inverts the condition checking if `podCount` has reached the maximum limit.
 
-```go
-package main
-
-import (
-    "fmt"
-)
-
-func main() {
-    podStatus := "Running"
-    namespace := "default"
-
-    if podStatus == "Running" && namespace == "default" {
-        fmt.Println("Pod is running in the default namespace.")
-    }
-}
-```
-
-### `OR` Operator
-
-On the other hand, the `OR` (`||`) operator checks if any of the conditions in the expression are `true`. If any condition is `true`, the entire expression evaluates to `true`. If all conditions are `false`, the entire expression evaluates to `false`. The syntax is as follows:
-
-```go
-if condition1 || condition2 {
-    // Code to execute if either condition1 or condition2 is true
-}
-```
-
-Let's modify our previous example to check if a Kubernetes `Pod` is either `Running` or `Pending`.
-
-```go
-package main
-
-import (
-    "fmt"
-)
-
-func main() {
-    podStatus := "Pending"
-
-    if podStatus == "Running" || podStatus == "Pending" {
-        fmt.Println("Pod is either running or pending.")
-    }
-}
-```
-
-The `AND` and `OR` logical operators are key for creating advanced conditions and providing flexibility to your Go programs. Remember to always test these examples and experiment with different conditions to get a solid understanding of these logical operators.
 
 ## Switch Statement
 
