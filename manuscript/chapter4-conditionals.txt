@@ -1,6 +1,6 @@
-# Conditional Types in Go
+# Conditional Statements
 
-In this chapter, we focus on the conditional types in Go, specifically `if` and `if else` constructs. Conditional logic is an integral part of programming languages, allowing us to control the flow of our programs based on certain conditions.
+In this chapter, we focus on the conditional statements in Go, specifically `if` and `if else` constructs. Conditional logic is an integral part of programming languages, allowing us to control the flow of our programs based on certain conditions.
 
 Go, like other C-style languages, supports `if`, `if else`, and `else if` conditional structures. However, Go introduces its own flavor by avoiding the need for parentheses `()` around conditions and enforcing the use of braces `{}` to encapsulate the condition's scope. 
 
@@ -106,37 +106,54 @@ The `if`, `if else`, and `else if` statements are powerful tools for controlling
 
 ## Comparison Operators
 
-Comparison operators play a vital role in making logical decisions based on the relationships between values. They are commonly used in conjunction with `if` statements to control the flow of the program based on specific conditions. Let's explore examples of how comparison operators are used with `if` statements:
+Comparison operators in Go are used to compare two values, and they return a boolean `true` or `false` based on the result of the comparison. These operators are essential tools when used in conditional statements. The following are some of the comparison operators available in Go:
 
-- **Equality**: The equality operator (`==`) which was also used in previous examples is often used in `if` statements to check if two values are equal. It allows us to execute a block of code only when the condition is true. For instance:
+* Equal to (`==`)
+* Not equal to (`!=`)
+* Greater than (`>`)
+* Less than (`<`)
+* Greater than or equal to (`>=`)
+* Less than or equal to (`<=`)
+
+Let's illustrate the use of these operators in the context of Kubernetes.
 
 ```go
-podStatus := "Running"
+podCount := 5
+minPods := 3
+maxPods := 10
 
-if podStatus == "Running" {
-    fmt.Println("Pod is running.")
-} else {
-    fmt.Println("Pod is not running.")
+// Equality check
+if podCount == maxPods {
+    fmt.Println("Pod count has reached the maximum limit.")
+}
+
+// Inequality check
+if podCount != minPods {
+    fmt.Println("Pod count is not at the minimum limit.")
+}
+
+// Greater than check
+if podCount > minPods {
+    fmt.Println("Pod count is above the minimum limit.")
+}
+
+// Less than check
+if podCount < maxPods {
+    fmt.Println("Pod count is below the maximum limit.")
+}
+
+// Greater than or equal to check
+if podCount >= minPods {
+    fmt.Println("Pod count is sufficient.")
+}
+
+// Less than or equal to check
+if podCount <= maxPods {
+    fmt.Println("Pod count is within the acceptable range.")
 }
 ```
 
-In the above example, the `if` statement checks if the `podStatus` is equal to `"Running"`. If the condition is true, the code block within the `if` statement is executed and it prints "Pod is running." Otherwise, the code block within the `else` statement is executed, and it prints "Pod is not running."
-
-- **Inequality**: The inequality operator (`!=`) is used in `if` statements to check if two values are not equal. It allows us to perform specific actions when the condition is true. Consider the following example:
-
-```go
-podStatus := "Running"
-
-if podStatus != "Running" {
-    fmt.Println("Pod is not running.")
-} else {
-    fmt.Println("Pod is running.")
-}
-```
-
-In this example, the `if` statement checks if the `podStatus` is not equal to `"Running"`. If the condition is true, it executes the code block within the `if` statement and prints "Pod is not running." Otherwise, it executes the code block within the `else` statement and prints "Pod is running."
-
-These examples demonstrate the use of comparison operators within `if` statements to make decisions based on specific conditions. Such constructs are invaluable in Go programming, enabling you to control the flow of your program based on the relationships between values.
+In these examples, we're using the comparison operators to check the `podCount` in relation to the `minPods` and `maxPods` values. Depending on the operator used and the result of the comparison, different messages will be printed. These operators allow for a rich set of conditions to be expressed in your Go programs.
 
 
 ## Logical operators
