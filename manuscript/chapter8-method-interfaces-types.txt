@@ -1,0 +1,162 @@
+# Methods, Interfaces, and Types
+
+## Introduction
+
+Go is a statically typed language with a rich system of types, methods, and interfaces. In this chapter, we'll explore these constructs, looking at how they interrelate and how they can be utilized to write idiomatic and efficient Go code in a Kubernetes context.
+
+## Methods
+
+In Go, a method is a function associated with a specific type, known as the method's receiver. This is different from languages such as Java or C#, where methods are associated with classes. Let's consider an example.
+
+```go
+type Pod struct {
+    name   string
+    status string
+}
+
+func (p Pod) getStatus() string {
+    return p.status
+}
+```
+
+In this example, we've defined a type `Pod` which is a struct representing a Kubernetes pod. We also define a method `getStatus` that has a receiver of type `Pod`. The method can be invoked on any instance of type `Pod`.
+
+Let's extend this further. Suppose we have multiple pods and we want to aggregate them in a `PodList` type. We can define a `PodList` type and then attach methods to it, like so:
+
+```go
+type PodList []Pod
+
+func (pl PodList) getRunningPods() []Pod {
+    var runningPods []Pod
+    for _, pod := range pl {
+        if pod.status == "Running" {
+            runningPods = append(runningPods, pod)
+        }
+    }
+    return runningPods
+}
+```
+
+In the above example, `PodList` is a slice of `Pod`. We attach the `getRunningPods` method to `PodList` type, which iterates over the list of pods and returns a new slice that contains only the pods which are in the "Running" state. Here, `PodList` is the receiver of the `getRunningPods` method.
+
+Let's see how we can create an instance of `PodList` and invoke the `getRunningPods` method on it:
+
+```go
+// Create some pods
+pod1 := Pod{name: "Pod1", status: "Running"}
+pod2 := Pod{name: "Pod2", status: "Pending"}
+pod3 := Pod{name: "Pod3", status: "Running"}
+
+// Create a PodList
+myPodList := PodList{pod1, pod2, pod3}
+
+// Invoke the getRunningPods method
+runningPods := myPodList.getRunningPods()
+
+// Print the names of the running pods
+for _, pod := range runningPods {
+    fmt.Println(pod.name)
+}
+```
+
+
+## Interfaces
+
+In Go, an interface is a custom type that encapsulates a set of method signatures. It's a way to express the behavioral capabilities of a type, regardless of what the type itself is. It's a core way of achieving polymorphism, a central concept in many programming paradigms, notably object-oriented programming.
+
+For example, consider a `Deployable` interface, which models the operations required for something to be deployable in a Kubernetes context:
+
+```go
+type Deployable interface {
+    Deploy() bool
+    Scale(replicas int) bool
+}
+```
+
+Here, a `Deployable` thing must have a `Deploy` method and a `Scale` method. Both methods are expected to return a boolean, which indicates whether the operation was successful or not.
+
+A struct `Deployment` can be defined, representing a deployment in a Kubernetes cluster:
+
+```go
+type Deployment struct {
+    Name     string
+    Replicas int
+}
+```
+
+To satisfy the `Deployable` interface, the `Deployment` struct must implement both the `Deploy` and `Scale` methods:
+
+```go
+func (d Deployment) Deploy() bool {
+    // Deployment logic
+    fmt.Printf("Deployment %s has been deployed.\n", d.Name)
+    return true
+}
+
+func (d *Deployment) Scale(replicas int) bool {
+    // Scaling logic
+    d.Replicas = replicas
+    fmt.Printf("Deployment %s has been scaled to %d replicas.\n", d.Name, d.Replicas)
+    return true
+}
+```
+
+The `*` before `Deployment` in the `Scale` function is a pointer receiver, it allows the method to modify the fields of the struct. When we say `func (d *Deployment)`, it means the function is using a pointer to a `Deployment` instance. Any modification it makes to `d` (like changing `d.Replicas`) will affect the original `Deployment` instance, not a copy. Without the `*`, any modifications made inside the function would only affect a copy of the `Deployment`, and not be persisted after the function ends. 
+
+The difference between pointer and value receivers is a crucial aspect of understanding how methods work in Go, and it can have a significant impact on the behavior and efficiency of your code.
+
+
+
+
+## Custom Types
+
+Go allows you to declare your own types from the existing ones. A type represents the kind of value and also determines what operations can be performed on that value. Let's look at an example of this.
+
+```go
+type PodName string
+```
+
+Here we've declared a new type `PodName` which is derived from the built-in `string` type. Now we can create methods associated with our custom type.
+
+```go
+func (p PodName) print() {
+    fmt.Println(p)
+}
+```
+
+In this example, we've added a `print` method to our `PodName` type. This enables us to call `print` on any variable of type `PodName`.
+
+Go's type system allows you to encapsulate related data and behaviors into a single entity. This promotes clean and organized code, making it easier to understand and maintain. 
+
+Let's look at another example.
+
+```go
+type ReplicaCount int
+```
+
+In the above code, we declare a new type `ReplicaCount` based on the built-in `int` type. This helps to add more context to the integer value that it would hold - the count of replicas for a Kubernetes deployment. This not only enhances readability but also enables us to add specific methods on this type, making it more powerful.
+
+We can add a method `ScaleUp` to increase the count of replicas:
+
+```go
+func (r *ReplicaCount) ScaleUp(increment int) {
+    *r += increment
+}
+```
+
+In this function, we accept an `increment` parameter and add it to the current `ReplicaCount`. We use a pointer receiver because we want to change the actual value of `r`, not just a copy of `r`.
+
+The choice of using custom types over built-in types can be driven by the following factors:
+
+1. **Readability**: Custom types can make the code easier to read and understand. As in our example, `ReplicaCount` clearly indicates that the variable is used to store the number of replicas in a Kubernetes deployment.
+
+2. **Encapsulation**: We can encapsulate related functions (methods) under a type, which leads to a better organization of code and improved clarity.
+
+3. **Control**: By using custom types, we can control the behavior of variables of this type, as we can define methods on these types.
+
+Thus, custom types can significantly enhance the clarity and structure of your code. The use of pointer receivers enables modifications to the values of these types, further broadening the applicability of custom types in your Go programs.
+
+
+## Conclusion
+
+In this chapter, we've dived into Go's type system exploring methods, custom types, and interfaces. These tools empower us to write expressive, readable, and flexible programs. In the following chapter, we will delve into error handling in Go.
