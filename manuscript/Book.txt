@@ -8,3 +8,4 @@ chapter6-functions.txt
 chapter7-pointers.txt
 chapter8-method-interfaces-types.txt
 chapter9-error-handling.txt
+chapter10-goroutines-concurrency-channels.txt
