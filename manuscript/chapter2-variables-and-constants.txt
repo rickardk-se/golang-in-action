@@ -2,7 +2,7 @@
 
 In this chapter, we delve into variables and constants in Golang, focusing on their declaration, naming conventions, best practices, and scope.
 
-## Variables in Golang
+## Variables
 
 A variable in Go represents a storage location that holds a value. The value can be of various types like `int`, `float64`, `bool`, or `string`. We will cover data types in a later chapter.
 
@@ -66,7 +66,7 @@ Variable names in Go can contain letters, numbers, and the underscore character 
 nodeSelector := "disk=ssd"
 ```
 
-## Constants in Golang
+## Constants
 
 A constant is a simple, unchanging value. Once a constant is declared, its value cannot be changed. Constants are declared like variables, but with the `const` keyword:
 
