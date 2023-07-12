@@ -7,3 +7,4 @@ chapter5-looping-structures.txt
 chapter6-functions.txt
 chapter7-pointers.txt
 chapter8-method-interfaces-types.txt
+chapter9-error-handling.txt

@@ -1,0 +1,163 @@
+# Error Handling
+
+Go's approach to error handling is a little different from what you may be accustomed to in other languages. Go's error handling is based around explicit returns of `error` values.
+
+## The error Interface
+
+In Go, `error` is a built-in interface type. This is its definition:
+
+```go
+type error interface {
+    Error() string
+}
+```
+
+An `error` in Go is any type that implements this interface, i.e., any type that has an `Error() string` method is considered an error. The `Error()` method is used to describe the error with a human-readable string.
+
+When your functions could potentially result in an error, you should return an `error` type as the final return value.
+
+For instance, consider a function that tries to retrieve a Kubernetes Pod based on a given name:
+
+```go
+func getPod(name string) (*Pod, error) {
+    // Hypothetical function
+    pod := findPodByName(name)
+
+    if pod == nil {
+        return nil, errors.New("pod not found")
+    }
+
+    return pod, nil
+}
+```
+
+## Checking for Errors
+
+When you call a function that can return an error, it's crucial to check if an error was returned.
+
+Continuing from the previous example:
+
+```go
+pod, err := getPod("mypod")
+if err != nil {
+    fmt.Println(err)
+    return
+}
+
+fmt.Println("Pod found:", pod.Name)
+```
+
+## Custom Errors
+
+In certain situations, the standard error values are not enough, and we need to create custom error types. To do this, we create a new type that implements the `error` interface.
+
+Consider that we want to return a custom error when a pod is not found:
+
+```go
+type PodNotFoundError struct {
+    PodName string
+}
+
+func (e *PodNotFoundError) Error() string {
+    return fmt.Sprintf("Pod not found: %s", e.PodName)
+}
+
+func getPod(name string) (*Pod, error) {
+    // Hypothetical function
+    pod := findPodByName(name)
+
+    if pod == nil {
+        return nil, &PodNotFoundError{PodName: name}
+    }
+
+    return pod, nil
+}
+```
+
+In this example, `PodNotFoundError` is a struct that implements the `error` interface. We use a pointer `*PodNotFoundError` when implementing the `Error()` function. The reason for using a pointer is two-fold:
+
+1. If `PodNotFoundError` was large, using a pointer receiver prevents the cost of copying the structure each time the `Error()` method is called.
+2. It's more common in Go to use pointers when working with methods, as using pointers allows the methods to modify the struct. Even though we are not modifying the struct in this case, using a pointer provides consistency with this common practice.
+
+When we return the error, we also use `&PodNotFoundError{PodName: name}` to create a pointer to the struct. This again is due to the fact we have implemented the `error` interface on a pointer type `*PodNotFoundError` and thus need to return a pointer to satisfy the `error` interface.
+
+This might seem a bit unusual if you are coming from a language like Python or JavaScript where there are no pointers, but in Go, pointers are a very efficient way to handle data, and so they are used quite often.
+
+
+## Wrapping Errors
+
+In the practice of error handling, there are times when we need to return an error with more context to convey a clearer understanding of what has gone wrong. For such instances, Go provides the ability to "wrap" errors with additional details. This wrapping action can be achieved without the need to declare an entirely new custom error type.
+
+Consider the following code block:
+
+```go
+func getPod(name string) (*Pod, error) {
+    // Hypothetical function
+    pod, err := findPodByName(name)
+
+    if err != nil {
+        return nil, fmt.Errorf("error getting pod %s: %v", name, err)
+    }
+
+    return pod, nil
+}
+```
+
+In this example, we're attempting to retrieve a Pod by its name using the hypothetical `findPodByName` function. This function may fail and return an error for various reasons - the Pod may not exist, there could be a network issue, or perhaps a permission problem.
+
+If an error occurs, we would like to include more context for easier debugging and understanding. We can achieve this by wrapping the original error `err` with an additional message using `fmt.Errorf`. 
+
+The `fmt.Errorf` function formats according to a format specifier and returns the string as a value that satisfies the error interface. Here we use `%s` as a placeholder for the Pod name, and `%v` as a placeholder for the original error message. This allows us to return a new error that provides more context: "error getting pod [Pod name]: [Original error message]".
+
+This way, the caller function not only receives an error but also gets a clearer picture of what went wrong and where.
+
+
+## Panic and Recover
+
+While errors are a way to handle normal operation errors, Go provides two built-in functions, `panic` and `recover`, for truly exceptional situations that are often beyond your program's control.
+
+### Panic
+
+The `panic` function is a built-in function that stops the ordinary flow of control, begins panicking, and runs all deferred calls in the goroutine. When the function F calls panic, execution of F stops, any deferred functions in F are executed normally, and then F returns to its caller.
+
+A common use of panic is to abort if a function returns an error value that we don’t know how to handle or don’t want to handle. Here's an example of how `panic` might be used:
+
+```go
+func createDeployment(config DeploymentConfig) {
+    if _, err := validateConfig(config); err != nil {
+        panic(err)
+    }
+    // continue with creating Deployment
+}
+```
+
+In this example, if `validateConfig` returns an error, the program will halt and print the error message.
+
+### Recover
+
+The `recover` function is a built-in function that regains control of a panicking goroutine. When the `recover` function is called in a deferred function, it stops the current state of panic and returns the value that was passed to the `panic` call.
+
+```go
+func createDeployment(config DeploymentConfig) {
+    defer func() {
+        if err := recover(); err != nil {
+            fmt.Printf("Caught a panic during deployment creation: %v\n", err)
+            // handle error, possibly attempting to recreate the deployment
+        }
+    }()
+
+    if _, err := validateConfig(config); err != nil {
+        panic(err)
+    }
+    // continue with creating Deployment
+}
+```
+
+In the above example, if `validateConfig` returns an error, we panic. But because the panic is occurring inside a function where we deferred a function containing a call to `recover`, the panic is immediately recovered, and the anonymous function we deferred is run. This allows us to handle the error and continue execution, rather than the program terminating.
+
+It is important to note that `panic` and `recover` should be used sparingly and are generally used for handling errors that should result in the program being halted, such as out-of-memory errors. The idiomatic way to handle errors in Go is through return values, not exceptions or panics.
+
+
+## Conclusion
+
+Handling errors in Go requires checking explicitly for them where they occur, and bubbling them up the stack when necessary. It might be a different pattern than what you're used to, especially if you're coming from languages with exceptions, but it can lead to clearer and more predictable code. In the next chapter, we'll explore another important concept in Go: concurrency with goroutines and channels.
