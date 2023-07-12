@@ -130,7 +130,7 @@ func main() {
 
 ```
 
-In this example, we start a new goroutine for each pod in the `pods` slice. These goroutines fetch pod details and send them to the `ch` channel. Finally we print contents of the channel using a seperate `for` loop. This execution should take around 10 seconds to complete instead of 60 seconds which it would take if we did not use goroutines. We are importing the `time` package add a sleep for each run and to be able to see how long time it takes to run the program.
+In this example, we start a new goroutine for each pod in the `pods` slice. These goroutines fetch pod details and send them to the `ch` channel. Finally we print contents of the channel using a seperate `for` loop. This execution should take around 10 seconds to complete instead of 60 seconds which it would take if we did not use goroutines. We are importing the `time` package to add a sleep for each run and to be able to see how long time it takes to run the program.
 
 You can test and play with the code here at [The Go Playground](https://go.dev/play/p/lzFRQZQyYjH).
 
