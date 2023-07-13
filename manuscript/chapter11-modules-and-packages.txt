@@ -1,0 +1,47 @@
+# Understanding and Working with Modules in Go
+
+## Initialising a Go Module
+
+In the world of Go, the term 'module' refers to a collection of related Go packages that are released together. A module is defined by a `go.mod` file located at the root of the module's directory hierarchy. This file defines the module path and the dependency requirements.
+
+To initialize a new module, Go provides the `go mod init` command. For instance, if we were creating a module for managing Kubernetes deployments, we might do:
+
+```bash
+go mod init github.com/your-username/kube-deploy-manager
+```
+
+This command creates a `go.mod` file in the current directory with the specified module path. The module path typically mirrors the location of your source code repository on a service like GitHub, but it can be any unique string. 
+
+## Relationship Between Modules and Packages
+
+A Go module is a collection of packages, as previously mentioned. The packages in a module are identified by unique import paths. The module path forms the prefix of all package import paths within the module.
+
+For instance, consider a module with the path 'github.com/your-username/kube-deploy-manager' containing a package in the directory 'deployment'. The import path for this package would be 'github.com/your-username/kube-deploy-manager/deployment'.
+
+The code files in this directory should be declared with the following package statement:
+
+```go
+package deployment
+```
+
+You can now import this package in your Go code like this:
+
+```go
+import "github.com/your-username/kube-deploy-manager/deployment"
+```
+
+And then you can use any exported identifiers from that package in your code.
+
+## Importing Modules
+
+When you need to use an external package in your Go code, you'll need to import it. If this package is part of an external module, Go will add this module to your `go.mod` file automatically when you run a command like `go build`, `go test`, or `go mod tidy`.
+
+Consider this import statement in a Go file in your 'kube-deploy-manager' module:
+
+```go
+import "k8s.io/client-go/kubernetes"
+```
+
+When you build this program, Go will automatically add the latest version of `k8s.io/client-go` to your `go.mod`.
+
+

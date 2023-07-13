@@ -1,0 +1,63 @@
+# Chapter 17: Test-Driven Development in Go
+
+Code should be thoroughly tested before it's considered ready for production. Go provides a robust testing framework out of the box, enabling developers to write unit tests, benchmarks, and even documentation as part of their code. This chapter introduces TDD and how to apply it in Go with examples related to Kubernetes.
+
+## 17.1 Introduction to TDD
+
+Test-Driven Development (TDD) is a software development approach where tests are written before the code. It can be summarized in three steps:
+
+1. **Red:** Write a failing test case.
+2. **Green:** Write the minimum amount of code necessary to pass the test.
+3. **Refactor:** Refactor the code while ensuring that the tests continue to pass.
+
+## 17.2 Writing our First Test
+
+We'll start with a simple function in Go that retrieves a list of Kubernetes pods. First, we'll write a test:
+
+```go
+package kube
+
+import "testing"
+
+func TestGetPods(t *testing.T) {
+    pods, err := GetPods()
+    if err != nil {
+        t.Errorf("Failed to get pods: %v", err)
+    }
+    if len(pods) == 0 {
+        t.Error("No pods returned")
+    }
+}
+```
+
+At this point, the test should fail (the "red" phase) because we haven't implemented the `GetPods` function yet.
+
+## 17.3 Making the Test Pass
+
+Next, we write the `GetPods` function. To make the test pass, we could simply return a non-empty slice:
+
+```go
+package kube
+
+type Pod struct {
+    Name string
+}
+
+func GetPods() ([]Pod, error) {
+    return []Pod{{Name: "pod-1"}}, nil
+}
+```
+
+Now, the test should pass (the "green" phase). 
+
+## 17.4 Running the Tests
+
+To run your tests in Go, you'll use the `go test` command followed by the package name. If the test file is in the current directory, you can simply run `go test .`. 
+
+This command will run any functions in the directory and its subdirectories that have names starting with `Test`, report whether they passed, and print any output from the tests themselves. If all tests pass, `go test` will return with a zero status. If any test fails, it will return a non-zero status.
+
+## 17.5 Refactor
+
+Finally, we could refactor our code if necessary, making sure our tests still pass. In this example, there's not much to refactor, but as your functions grow more complex, this phase will become crucial.
+
+TDD might seem slow at first due to the constant back-and-forth between writing tests and implementing code. However, it pays off in the long run, ensuring that your code is working as expected and preventing regression errors when changes are made.
